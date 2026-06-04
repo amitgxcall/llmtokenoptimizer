@@ -1,0 +1,14 @@
+warning: unused variable: `count`
+  --> src/main.rs:12:9
+   |
+   |         ^^^^^ help: if this is intentional, prefix it with an underscore: `_count`
+   |
+error[E0599]: no method named `fooz` found for struct `Bar` in the current scope
+  --> src/main.rs:20:11
+   |
+   |         ^^^^ help: there is a method with a similar name: `foo`
+   |
+   = help: items from traits can only be used if the trait is implemented
+…
+error: aborting due to 1 previous error; 1 warning emitted
+error: could not compile `foo` (bin "foo") due to previous error

@@ -17,7 +17,8 @@
     "test": "node --import tsx --test tests/unit/*.test.ts tests/integration/*.test.ts",
     "test:unit": "node --import tsx --test tests/unit/*.test.ts",
     "test:integration": "node --import tsx --test tests/integration/*.test.ts",
-    "test:smoke": "npm run build && node dist/scripts/smoke.js"
+    "test:smoke": "npm run build && node dist/scripts/smoke.js",
+    "test:perf": "node --import tsx --test tests/perf/*.test.ts"
   },
   "dependencies": {
     "@hono/node-server": "^1.13.7",

@@ -115,6 +115,7 @@ Set `LTO_HELPER_MODE` in `.env`. A daily budget cap (`LTO_HELPER_DAILY_BUDGET_US
 npm test              # unit + integration (fast, no network, ~5s)
 npm run test:unit     # just the pure-logic tests
 npm run test:integration   # spins up in-process mock upstream
+npm run test:perf     # 1000-request pipeline overhead benchmark
 npm run test:smoke    # OPT-IN: real Anthropic call (~$0.001/run, needs key)
 ```
 

@@ -40,9 +40,11 @@ export function slim(raw: string, preset: Preset | null): SlimResult {
   // ANSI strip first if any drop rule asks for it (default: yes — bytes always wasted)
   let lines = raw.replace(ANSI_RE, "").split(/\r?\n/);
 
-  // Apply collapse rules (regex with optional replacement / count)
+  // Apply collapse rules. Note: avoid `g` flag with `.test()` — it mutates
+  // `lastIndex` and causes every other check to return false.
   for (const c of preset.collapse ?? []) {
-    const re = new RegExp(c.pattern, c.flags ?? "g");
+    const flags = (c.flags ?? "").replace("g", "");
+    const re = new RegExp(c.pattern, flags);
     let count = 0;
     lines = lines.filter(line => {
       if (re.test(line)) { count++; return false; }

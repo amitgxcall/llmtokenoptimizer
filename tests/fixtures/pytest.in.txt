@@ -1,0 +1,23 @@
+============================= test session starts ==============================
+platform linux -- Python 3.11.4, pytest-7.4.0, pluggy-1.2.0
+rootdir: /repo
+collected 12 items
+
+tests/test_math.py ......                                                [ 50%]
+tests/test_api.py ...F..                                                 [100%]
+
+=================================== FAILURES ===================================
+_______________________________ test_login_400 _________________________________
+
+client = <flask.testing.FlaskClient object at 0x7f...>
+
+    def test_login_400():
+        r = client.post("/login", json={"user": "bob"})
+>       assert r.status_code == 200
+E       AssertionError: assert 400 == 200
+E        +  where 400 = <Response 11 bytes [400 BAD REQUEST]>.status_code
+
+tests/test_api.py:42: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_api.py::test_login_400 - AssertionError: assert 400 == 200
+======================== 1 failed, 11 passed in 0.42s =========================
