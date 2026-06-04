@@ -13,7 +13,11 @@
     "ledger": "tsx src/ledger/cli.ts",
     "ledger:serve": "tsx src/ledger/dashboard.ts",
     "mcp": "tsx src/mcp/server.ts",
-    "slim": "tsx src/slimmer/cli.ts"
+    "slim": "tsx src/slimmer/cli.ts",
+    "test": "node --import tsx --test tests/unit/*.test.ts tests/integration/*.test.ts",
+    "test:unit": "node --import tsx --test tests/unit/*.test.ts",
+    "test:integration": "node --import tsx --test tests/integration/*.test.ts",
+    "test:smoke": "npm run build && node dist/scripts/smoke.js"
   },
   "dependencies": {
     "@hono/node-server": "^1.13.7",

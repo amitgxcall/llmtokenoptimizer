@@ -109,6 +109,34 @@ You can **opt in** to a small "helper LLM" tier for higher-quality intent classi
 
 Set `LTO_HELPER_MODE` in `.env`. A daily budget cap (`LTO_HELPER_DAILY_BUDGET_USD`, default $0.50) auto-falls-back to local-only when crossed.
 
+## Testing
+
+```bash
+npm test              # unit + integration (fast, no network, ~5s)
+npm run test:unit     # just the pure-logic tests
+npm run test:integration   # spins up in-process mock upstream
+npm run test:smoke    # OPT-IN: real Anthropic call (~$0.001/run, needs key)
+```
+
+What each layer covers:
+
+- **Unit** (`tests/unit/`) — slimmer regexes (npm/pytest/cargo/jest output), output slimmer, provider cache injection points, intent rules, token counting, embeddings cosine + round-trip
+- **Integration** (`tests/integration/proxy.test.ts`) — starts an in-process mock Anthropic upstream, exercises the full pipeline, asserts:
+  - upstream receives the request with the system addendum + headers injected
+  - response is slimmed (preamble/postamble stripped)
+  - ledger row is written with correct token / cost numbers
+  - identical second request hits the semantic cache (zero upstream traffic)
+- **Smoke** (`scripts/smoke.ts`) — opt-in real-API end-to-end. Only runs if `ANTHROPIC_API_KEY` is set. Uses Haiku 4.5 (~$0.001/run).
+- **CI** — `.github/workflows/ci.yml` runs unit + integration on every push, Node 20.x + 22.x.
+
+Manual verification of the standalone slimmer:
+
+```bash
+npm install -g .                            # install lto-slim
+lto-slim -- npm install                     # see compact output + savings line
+lto-slim --raw -- npm install > raw.txt     # A/B compare against unslimmed
+```
+
 ## Architecture
 
 See [ARCHITECTURE.md](./ARCHITECTURE.md) for the full design — proxy internals, the 7-pass pipeline, learning-memory schema, ledger schema, and the provider-native features LTO leans on.
